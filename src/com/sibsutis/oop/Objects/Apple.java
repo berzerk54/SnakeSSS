@@ -11,8 +11,10 @@ public class Apple {
         posX = x;
         posY = y;
     }
+
     public void setRandomPosition(){
-        posX = (int) (Math.random() * TheGame.WIDTH  );
-        posY = (int) (Math.random() * TheGame.HEIGHT );
+        posX = (int) (Math.random()* TheGame.WIDTH );
+        posY = (int) (Math.random()* TheGame.HEIGHT);
+
     }
 }
