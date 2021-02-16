@@ -82,19 +82,18 @@ public class TheGame extends JPanel implements ActionListener {
         jFrame.add(new TheGame());
         jFrame.setVisible(true);
     }
-    public  void restartGame(){
+
+    public void restartGame(){
         s.length=2;
         timer.start();
         s.direction=0;
         apple.setRandomPosition();
-
-
     }
 
-    public  void pause(){
-        paused ^= paused;
-        if (paused=true) timer.stop();
-        else if (paused=false) timer.start();
+    public void pause(){
+        paused = !paused;
+        if (paused) timer.stop();
+        else timer.start();
     }
 
 
