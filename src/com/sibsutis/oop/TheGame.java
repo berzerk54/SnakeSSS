@@ -63,16 +63,30 @@ public class TheGame extends JPanel implements ActionListener {
         String[] options = {"ОК"};
         int choice = JOptionPane.showOptionDialog(null,
                 "<html>Я-змея-змея-змея<br>" +
-                "Я ползу-ползу-ползу..<br>" +
+                        "Я ползу-ползу-ползу..<br>" +
                         "<br>" +
-                        "Управление стрелками, " +
-                        "пауза - пробел</html>",
-                "Иногда пора остановиться",
+                        "Управление стрелками<br> " +
+                        "пауза - пробел<br>" +
+                        "esc-выход </html>",
+                "Хелп",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
                 options,
                 "Да");
+        pause();
+
+    }public void about() {
+        String[] options = {"ОК"};
+        int choice = JOptionPane.showOptionDialog(null,
+                "<html>Разработано Волжанкиным Александром из группы ПБТ-94<br>" +
+                        "Во время разработки ни одно пресмыкающееся не пострадало. </html>",
+                "О программе",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                options,
+                "ОК");
         pause();
 
     }
@@ -107,13 +121,15 @@ public class TheGame extends JPanel implements ActionListener {
            g.fillRect((s.snakeX[0]*SCALE+2)+SHIFT,(s.snakeY[0]*SCALE+2)+SHIFT,SCALE-4,SCALE-4);
         }
         String count = "Score: "+String.valueOf(score);
-        String info = "f1-help";
+        String hint = "f1-help  f2-about";
+        String info = "(C) 2021";
+
         Font f = new Font("Arial", Font.BOLD,14);
         g.setColor(Color.yellow);
         g.setFont(f);
         g.drawString(count, 650+SHIFT, 25);
+        g.drawString(hint,660, 600);
         g.drawString(info,660, 630+SHIFT);
-
 
 
     }
@@ -184,7 +200,10 @@ public class TheGame extends JPanel implements ActionListener {
             if (key==KeyEvent.VK_F1) {
                 pause();
                 helpme();
-                }
+            } if (key==KeyEvent.VK_F2) {
+                pause();
+                about();
+            }
             }
         }
 
