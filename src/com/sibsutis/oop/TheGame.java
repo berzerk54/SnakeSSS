@@ -1,6 +1,6 @@
 package com.sibsutis.oop;
-
 import com.sibsutis.oop.Objects.Apple;
+import com.sibsutis.oop.Objects.Fruit;
 import com.sibsutis.oop.Objects.Snake;
 
 import javax.swing.*;
@@ -147,7 +147,8 @@ public class TheGame extends JPanel implements ActionListener {
         s.length=2;
         timer.start();
         s.direction=0;
-        apple.setRandomPosition();
+        Apple.setRandomPosition();
+        score=0;
 
 
     }
