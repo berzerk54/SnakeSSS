@@ -1,11 +1,9 @@
 package com.sibsutis.oop;
 
-import com.sibsutis.oop.Objects.Apple;
 import com.sibsutis.oop.Objects.Fruit;
 import com.sibsutis.oop.Objects.Snake;
 
 import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,15 +21,10 @@ public class TheGame extends JPanel implements ActionListener {
     public boolean paused = false;
 
     Snake s = new Snake(5, 6, 5, 5);
-
     Fruit fruit = null;
-
-//    Apple apple = new Apple (Math.abs((int) (Math.random() * WIDTH - 1)),   Math.abs((int) (Math.random() * HEIGHT-1)));
-
     Timer timer = new Timer(1000 / SPEED, this);
 
-
-    public void dialog1() {
+    public void gameOver() {
         String[] options = {"Да", "Нет"};
         int choice = JOptionPane.showOptionDialog(null,
                 "<html> <h2>Вы приехали..</h2> <br> Хотите начать сначала?</html>",
@@ -128,7 +121,7 @@ public class TheGame extends JPanel implements ActionListener {
             g.setColor(Color.white);
             g.fillRect((s.snakeX[0] * SCALE + 2) + SHIFT, (s.snakeY[0] * SCALE + 2) + SHIFT, SCALE - 4, SCALE - 4);
         }
-        String count = "Score: " + String.valueOf(score);
+        String count = "Score: " + (score);
         String hint = "f1-help  f2-about";
         String info = "(C) 2021";
 
@@ -189,7 +182,7 @@ public class TheGame extends JPanel implements ActionListener {
             }
             if ((s.snakeX[0] == s.snakeX[l]) && (s.snakeY[0] == s.snakeY[l])) {
                 timer.stop();
-                dialog1();
+                gameOver();
             }
         }
 
