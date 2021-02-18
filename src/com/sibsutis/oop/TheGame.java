@@ -1,4 +1,5 @@
 package com.sibsutis.oop;
+
 import com.sibsutis.oop.Objects.Apple;
 import com.sibsutis.oop.Objects.Fruit;
 import com.sibsutis.oop.Objects.Snake;
@@ -19,11 +20,15 @@ public class TheGame extends JPanel implements ActionListener {
     public static final int SHIFT = 10;
     public static int SPEED = 10;
     public static int score = 0;
-    public boolean paused=false;
+    public boolean paused = false;
 
-    Snake s = new Snake(5,6,5,5);
-    Apple apple = new Apple (Math.abs((int) (Math.random() * WIDTH - 1)),   Math.abs((int) (Math.random() * HEIGHT-1)));
-    Timer timer = new Timer (1000/SPEED,this);
+    Snake s = new Snake(5, 6, 5, 5);
+
+    Fruit fruit = null;
+
+//    Apple apple = new Apple (Math.abs((int) (Math.random() * WIDTH - 1)),   Math.abs((int) (Math.random() * HEIGHT-1)));
+
+    Timer timer = new Timer(1000 / SPEED, this);
 
 
     public void dialog1() {
@@ -37,12 +42,12 @@ public class TheGame extends JPanel implements ActionListener {
                 options,
                 "Да");
 
-        if (choice == JOptionPane.OK_OPTION) {
+        if (choice == JOptionPane.OK_OPTION)
             restartGame();
-        }
         else
-        System.exit(0);
-        }
+            System.exit(0);
+    }
+
     public void fatSnake() {
         String[] options = {"Да", "Нет"};
         int choice = JOptionPane.showOptionDialog(null,
@@ -53,12 +58,12 @@ public class TheGame extends JPanel implements ActionListener {
                 null,
                 options,
                 "Да");
-        if (choice == JOptionPane.OK_OPTION) {
+        if (choice == JOptionPane.OK_OPTION)
             restartGame();
-        }
         else
             System.exit(0);
     }
+
     public void helpme() {
         String[] options = {"ОК"};
         int choice = JOptionPane.showOptionDialog(null,
@@ -76,7 +81,9 @@ public class TheGame extends JPanel implements ActionListener {
                 "Да");
         pause();
 
-    }public void about() {
+    }
+
+    public void about() {
         String[] options = {"ОК"};
         int choice = JOptionPane.showOptionDialog(null,
                 "<html>Разработано Волжанкиным Александром из группы ПБТ-94<br>" +
@@ -92,121 +99,124 @@ public class TheGame extends JPanel implements ActionListener {
     }
 
 
-
-    public TheGame(){
+    public TheGame() {
+        fruit = Fruit.getRandomInstance();
         timer.start();
-        addKeyListener( new KeyBoard());
+        addKeyListener(new KeyBoard());
         setFocusable(true);
 
     }
-    public void paint(Graphics g){
+
+    public void paint(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(0,0,800,700);
-        for (int x = 0; x < WIDTH*SCALE+SHIFT ; x+=SCALE) {
+        g.fillRect(0, 0, 800, 700);
+        for (int x = 0; x < WIDTH * SCALE + SHIFT; x += SCALE) {
             g.setColor(Color.darkGray);
-            g.drawLine(x+SHIFT,0+SHIFT,x+SHIFT,(WIDTH*SCALE)+SHIFT);
+            g.drawLine(x + SHIFT, 0 + SHIFT, x + SHIFT, (WIDTH * SCALE) + SHIFT);
         }
-        for (int y = 0; y < WIDTH*SCALE+SHIFT ; y+=SCALE) {
+        for (int y = 0; y < WIDTH * SCALE + SHIFT; y += SCALE) {
             g.setColor(Color.darkGray);
-            g.drawLine(0+SHIFT,y+SHIFT,(HEIGHT*SCALE)+SHIFT,y+SHIFT);
+            g.drawLine(0 + SHIFT, y + SHIFT, (HEIGHT * SCALE) + SHIFT, y + SHIFT);
         }
-        g.setColor(Color.red);
-        g.fillOval(apple.posX*SCALE+4+SHIFT, apple.posY*SCALE+4+SHIFT,SCALE-8,SCALE-8);
+
+        fruit.paint(g);
 
 
-        for ( int l = 1; l < s.length; l++){
+        for (int l = 1; l < s.length; l++) {
             g.setColor(Color.green);
-            g.fillRect((s.snakeX[l]*SCALE+2)+SHIFT,(s.snakeY[l]*SCALE+2)+SHIFT,SCALE-4,SCALE-4);
+            g.fillRect((s.snakeX[l] * SCALE + 2) + SHIFT, (s.snakeY[l] * SCALE + 2) + SHIFT, SCALE - 4, SCALE - 4);
             g.setColor(Color.white);
-           g.fillRect((s.snakeX[0]*SCALE+2)+SHIFT,(s.snakeY[0]*SCALE+2)+SHIFT,SCALE-4,SCALE-4);
+            g.fillRect((s.snakeX[0] * SCALE + 2) + SHIFT, (s.snakeY[0] * SCALE + 2) + SHIFT, SCALE - 4, SCALE - 4);
         }
-        String count = "Score: "+String.valueOf(score);
+        String count = "Score: " + String.valueOf(score);
         String hint = "f1-help  f2-about";
         String info = "(C) 2021";
 
-        Font f = new Font("Arial", Font.BOLD,14);
+        Font f = new Font("Arial", Font.BOLD, 14);
         g.setColor(Color.yellow);
         g.setFont(f);
-        g.drawString(count, 650+SHIFT, 25);
-        g.drawString(hint,660, 600);
-        g.drawString(info,660, 630+SHIFT);
+        g.drawString(count, 650 + SHIFT, 25);
+        g.drawString(hint, 660, 600);
+        g.drawString(info, 660, 630 + SHIFT);
 
 
     }
 
-    public static void main  (String[] args) {
+    public static void main(String[] args) {
         jFrame = new JFrame("The Snake Game-9000");
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jFrame.setSize(800,700);
+        jFrame.setSize(800, 700);
         jFrame.setLocationRelativeTo(null);
         jFrame.setResizable(false);
         jFrame.add(new TheGame());
         jFrame.setVisible(true);
     }
-    public  void restartGame(){
-        s.length=2;
+
+
+    public void restartGame() {
+        s.length = 2;
         timer.start();
-        s.direction=0;
-        Apple.setRandomPosition();
-        score=0;
+        s.direction = 0;
+        fruit = Fruit.getRandomInstance();
+        score = 0;
 
 
     }
 
-    public  void pause(){
-      paused=!paused;
-      if (paused) {
-          timer.stop();
-      }
-      else timer.start();
+    public void pause() {
+        paused = !paused;
+        if (paused)
+            timer.stop();
+        else timer.start();
 
-        }
-
-
+    }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         s.move();
-        if ((s.snakeX[0] == apple.posX) && (s.snakeY[0] == apple.posY)) {
+
+        if (fruit.isCollision(s.snakeX[0], s.snakeY[0])) {
+
             score++;
-            apple.setRandomPosition();
+            fruit = Fruit.getRandomInstance();
             s.length++;
         }
 
         for (int l = 1; l < s.length; l++) {
-            if ((s.snakeX[l] == apple.posX) && (s.snakeY[l] == apple.posY)) {
-                apple.setRandomPosition();
+            if (fruit.isCollision(s.snakeX[l], s.snakeY[l])) {
+                fruit = Fruit.getRandomInstance();
             }
             if ((s.snakeX[0] == s.snakeX[l]) && (s.snakeY[0] == s.snakeY[l])) {
                 timer.stop();
                 dialog1();
-                restartGame();
             }
         }
-        if (s.length==399) fatSnake();
+
+        if (s.length == 399) fatSnake();
 
         repaint();
     }
 
-    public class KeyBoard extends KeyAdapter{
-        public void keyPressed(KeyEvent event){
-            int key= event.getKeyCode();
-            if (key == KeyEvent.VK_UP && s.direction != 2) s.direction=0;
-            if (key == KeyEvent.VK_DOWN && s.direction != 0) s.direction=2;
-            if (key == KeyEvent.VK_RIGHT && s.direction != 3) s.direction=1;
-            if (key == KeyEvent.VK_LEFT && s.direction !=1) s.direction=3;
+    public class KeyBoard extends KeyAdapter {
+        public void keyPressed(KeyEvent event) {
+            int key = event.getKeyCode();
+            if (key == KeyEvent.VK_UP && s.direction != 2) s.direction = 0;
+            if (key == KeyEvent.VK_DOWN && s.direction != 0) s.direction = 2;
+            if (key == KeyEvent.VK_RIGHT && s.direction != 3) s.direction = 1;
+            if (key == KeyEvent.VK_LEFT && s.direction != 1) s.direction = 3;
             if (key == KeyEvent.VK_ESCAPE) System.exit(0);
             if (key == KeyEvent.VK_SPACE) pause();
-            if (key==KeyEvent.VK_F1) {
+            if (key == KeyEvent.VK_F1) {
                 pause();
                 helpme();
-            } if (key==KeyEvent.VK_F2) {
+            }
+            if (key == KeyEvent.VK_F2) {
                 pause();
                 about();
             }
-            }
         }
-
     }
+
+}
 
